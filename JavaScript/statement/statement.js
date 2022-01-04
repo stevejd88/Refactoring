@@ -56,3 +56,5 @@ const statement = (invoice, plays) => {
 
 const printStatement = statement(invoiceData, playData);
 console.log(printStatement);
+
+module.exports = statement;
