@@ -1,0 +1,22 @@
+{
+  "name": "refactoring",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stevejd88/Refactoring.git"
+  },
+  "author": "Steven De Avila",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stevejd88/Refactoring/issues"
+  },
+  "homepage": "https://github.com/stevejd88/Refactoring#readme",
+  "devDependencies": {
+    "jest": "^27.4.5"
+  }
+}
