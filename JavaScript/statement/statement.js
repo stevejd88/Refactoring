@@ -5,11 +5,6 @@ const statement = (invoice, plays) => {
   let totalAmount = 0;
   let volumeCredits = 0;
   let result = `Statement for ${invoice.customer}\n`;
-  const format = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2
-  }).format;
 
   function playFor(aPerformance) {
     return plays[aPerformance.playID];
@@ -36,6 +31,16 @@ const statement = (invoice, plays) => {
         throw new Error(`unknown type: ${playFor(aPerformance).type}`);
     }
     return result;
+  }
+
+  // REMOVE RESULT VARIABLE, AND REPLACE IT WITH CHANGE format() VARIABLE
+  // TO A DECLARED FUNCTION format()
+  function format(aNumber) {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2
+    }).format(aNumber);
   }
 
   // 1. EXTRACT VOLUME CREDITS LOGIC
