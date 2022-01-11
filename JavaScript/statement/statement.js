@@ -69,10 +69,9 @@ const statement = (invoice, plays) => {
     } seats)\n`;
     totalAmount += amountFor(perf);
   }
-  // REPLACE TEMPORARY VOLUMECRESITS VARIABLE WITH QUERY totalVolumeCredits()
-  let volumeCredits = totalVolumeCredits();
+  // REPLACE call to  volumeCredits VARIABLE WITH QUERY totalVolumeCredits() INLINE VARIABLE
   result += `Amount owed is ${usd(totalAmount)}\n`;
-  result += `You earned ${volumeCredits} credits\n`;
+  result += `You earned ${totalVolumeCredits()} credits\n`;
   return result;
 };
 
