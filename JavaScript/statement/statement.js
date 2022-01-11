@@ -33,14 +33,15 @@ const statement = (invoice, plays) => {
     return result;
   }
 
-  // REMOVE RESULT VARIABLE, AND REPLACE IT WITH CHANGE format() VARIABLE
-  // TO A DECLARED FUNCTION format()
-  function format(aNumber) {
+  // 1.  REMOVE RESULT VARIABLE, AND REPLACE IT WITH CHANGE format() VARIABLE
+  // TO A DECLARED FUNCTION format().
+  // 2. REPLACE CALLS TO format() variable to usd()
+  function usd(aNumber) {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 2
-    }).format(aNumber);
+    }).format(aNumber / 100);
   }
 
   // 1. EXTRACT VOLUME CREDITS LOGIC
@@ -58,13 +59,13 @@ const statement = (invoice, plays) => {
     volumeCredits += volumeCreditsFor(perf);
 
     // print line for this order
-    result += `${playFor(perf).name}: ${format(amountFor(perf) / 100)} (${
+    result += `${playFor(perf).name}: ${usd(amountFor(perf))} (${
       perf.audience
     } seats)\n`;
     totalAmount += amountFor(perf);
   }
 
-  result += `Amount owed is ${format(totalAmount / 100)}\n`;
+  result += `Amount owed is ${usd(totalAmount)}\n`;
   result += `You earned ${volumeCredits} credits\n`;
   return result;
 };
