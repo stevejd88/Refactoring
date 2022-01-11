@@ -1,28 +1,6 @@
 const playData = require('./plays.json');
 const invoiceData = require('./invoices.json');
 
-const amountFor = (perf, play) => {
-  let result = 0;
-  switch (play.type) {
-    case 'tragedy':
-      result = 40000;
-      if (perf.audience > 30) {
-        result += 1000 * (perf.audience - 30);
-      }
-      break;
-
-    case 'comedy':
-      result = 30000;
-      if (perf.audience > 30) {
-        result += 300 * (perf.audience - 20);
-      }
-      break;
-    default:
-      throw new Error(`unknown type: ${play.type}`);
-  }
-  return result;
-};
-
 const statement = (invoice, plays) => {
   let totalAmount = 0;
   let volumeCredits = 0;
@@ -33,8 +11,35 @@ const statement = (invoice, plays) => {
     minimumFractionDigits: 2
   }).format;
 
+  function amountFor(aPerformance, play) {
+    let result = 0;
+    switch (play.type) {
+      case 'tragedy':
+        result = 40000;
+        if (aPerformance.audience > 30) {
+          result += 1000 * (aPerformance.audience - 30);
+        }
+        break;
+
+      case 'comedy':
+        result = 30000;
+        if (aPerformance.audience > 30) {
+          result += 300 * (aPerformance.audience - 20);
+        }
+        break;
+      default:
+        throw new Error(`unknown type: ${play.type}`);
+    }
+    return result;
+  }
+
+  function playFor(aPerformance) {
+    return plays[aPerformance.playID];
+  }
+
   for (let perf of invoice.performances) {
-    const play = plays[perf.playID];
+    // refactor to inline variable
+    const play = playFor(perf);
     let thisAmount = amountFor(perf, play);
 
     // add volume credits
