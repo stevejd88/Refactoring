@@ -3,7 +3,6 @@ const invoiceData = require('./invoices.json');
 
 const statement = (invoice, plays) => {
   let totalAmount = 0;
-  let volumeCredits = 0;
   let result = `Statement for ${invoice.customer}\n`;
 
   function playFor(aPerformance) {
@@ -55,16 +54,23 @@ const statement = (invoice, plays) => {
     return result;
   }
 
-  for (let perf of invoice.performances) {
-    volumeCredits += volumeCreditsFor(perf);
+  function totalVolumeCredits() {
+    let volumeCredits = 0;
+    for (let perf of invoice.performances) {
+      volumeCredits += volumeCreditsFor(perf);
+    }
+    return volumeCredits;
+  }
 
+  for (let perf of invoice.performances) {
     // print line for this order
     result += `${playFor(perf).name}: ${usd(amountFor(perf))} (${
       perf.audience
     } seats)\n`;
     totalAmount += amountFor(perf);
   }
-
+  // REPLACE TEMPORARY VOLUMECRESITS VARIABLE WITH QUERY totalVolumeCredits()
+  let volumeCredits = totalVolumeCredits();
   result += `Amount owed is ${usd(totalAmount)}\n`;
   result += `You earned ${volumeCredits} credits\n`;
   return result;
