@@ -11,6 +11,10 @@ const statement = (invoice, plays) => {
     minimumFractionDigits: 2
   }).format;
 
+  function playFor(aPerformance) {
+    return plays[aPerformance.playID];
+  }
+
   function amountFor(aPerformance, play) {
     let result = 0;
     switch (play.type) {
@@ -33,22 +37,18 @@ const statement = (invoice, plays) => {
     return result;
   }
 
-  function playFor(aPerformance) {
-    return plays[aPerformance.playID];
-  }
-
   for (let perf of invoice.performances) {
-    // refactor to inline variable
-    const play = playFor(perf);
-    let thisAmount = amountFor(perf, play);
+    // replace play variable with inline function variables
+    let thisAmount = amountFor(perf, playFor(perf));
 
     // add volume credits
     volumeCredits += Math.max(perf.audience - 30, 0);
     // add extra credit for every ten comedy attendees
-    if ('comedy' === play.type) volumeCredits += Math.floor(perf.audience / 5);
+    if ('comedy' === playFor(perf).type)
+      volumeCredits += Math.floor(perf.audience / 5);
 
     // print line for this order
-    result += `${play.name}: ${format(thisAmount / 100)} (${
+    result += `${playFor(perf).name}: ${format(thisAmount / 100)} (${
       perf.audience
     } seats)\n`;
     totalAmount += thisAmount;
