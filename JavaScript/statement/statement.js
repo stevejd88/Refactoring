@@ -38,14 +38,15 @@ const statement = (invoice, plays) => {
     return result;
   }
 
-  // EXTRACT VOLUME CREDITS LOGIC
-  function volumeCreditsFor(perf) {
-    let volumeCredits = 0;
-    volumeCredits += Math.max(perf.audience - 30, 0);
+  // 1. EXTRACT VOLUME CREDITS LOGIC
+  // 2. RENAME VARIABLES
+  function volumeCreditsFor(aPerformance) {
+    let result = 0;
+    result += Math.max(aPerformance.audience - 30, 0);
     // add extra credit for every ten comedy attendees
-    if ('comedy' === playFor(perf).type)
-      volumeCredits += Math.floor(perf.audience / 5);
-    return volumeCredits;
+    if ('comedy' === playFor(aPerformance).type)
+      result += Math.floor(aPerformance.audience / 5);
+    return result;
   }
 
   for (let perf of invoice.performances) {
