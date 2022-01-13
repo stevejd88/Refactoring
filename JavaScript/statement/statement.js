@@ -62,13 +62,23 @@ const statement = (invoice, plays) => {
     return volumeCredits;
   }
 
+  // EXTRACT totaAMount variable
+  function appleSauce() {
+    let totalAMount = 0;
+    for (let perf of invoice.performances) {
+      totalAmount += amountFor(perf);
+    }
+    return totalAmount;
+  }
+
   for (let perf of invoice.performances) {
     // print line for this order
     result += `${playFor(perf).name}: ${usd(amountFor(perf))} (${
       perf.audience
     } seats)\n`;
-    totalAmount += amountFor(perf);
   }
+  totalAmount = appleSauce();
+
   // REPLACE call to  volumeCredits VARIABLE WITH QUERY totalVolumeCredits() INLINE VARIABLE
   result += `Amount owed is ${usd(totalAmount)}\n`;
   result += `You earned ${totalVolumeCredits()} credits\n`;
